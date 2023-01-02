@@ -9,33 +9,31 @@ import { API_KEY } from "@env";
 export default function Map() {
   const origin = useSelector(selectOrigin);
   const destination = useSelector(selectDestination);
-  const map = useRef(null);
+  const mapRef = useRef(null);
 
   useEffect(() => {
     if (!origin || !destination) return;
 
-    setTimeout(() => {
-      map.current.fitToSuppliedMarkers(["Origin", "Destination"], {
-        edgePadding: {
-          top: 30,
-          right: 30,
-          bottom: 30,
-          left: 30,
-        },
-      });
-    }, 500);
+    mapRef.current.fitToSuppliedMarkers(["origin", "Destination"], {
+      edgePadding: {
+        top: 30,
+        right: 30,
+        bottom: 30,
+        left: 30,
+      },
+    });
   }, [origin, destination]);
 
   return (
     <MapView
-      ref={map}
+      ref={mapRef}
       style={tw`flex-1`}
       mapType={"mutedStandard"}
       initialRegion={{
         latitude: origin.location.lat,
         longitude: origin.location.lng,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
       }}
     >
       {origin && destination && (
